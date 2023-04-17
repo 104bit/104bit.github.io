@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Örnek Web Sitesi</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Hoş Geldiniz!</h1>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="#anasayfa">Ana Sayfa</a></li>
+      <li><a href="#hakkimizda">Hakkımızda</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section id="anasayfa">
+      <h2>Ana Sayfa</h2>
+      <p>Hoş geldiniz! Bu örnek web sitesi hakkında bilgilere burada ulaşabilirsiniz.</p>
+    </section>
+    <section id="hakkimizda">
+      <h2>Hakkımızda</h2>
+      <p>Şirketimiz hakkında daha fazla bilgiye buradan ulaşabilirsiniz.</p>
+    </section>
+    <section id="iletisim">
+      <h2>İletişim</h2>
+      <p>Bizimle iletişim kurmak için aşağıdaki formu kullanabilirsiniz.</p>
+      <form id="contact-form">
+        <label for="name">Adınız:</label>
+        <input type="text" id="name" name="name">
+        <label for="email">E-posta:</label>
+        <input type="email" id="email" name="email">
+        <label for="message">Mesajınız:</label>
+        <textarea id="message" name="message"></textarea>
+        <input type="submit" value="Gönder">
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>Telif Hakkı &copy; 2023. Tüm hakları saklıdır.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
