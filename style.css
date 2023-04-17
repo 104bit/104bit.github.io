@@ -1,0 +1,66 @@
+/* Genel stil ayarları */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Başlık ve altlık stilleri */
+header, footer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+header h1, footer p {
+  margin: 0;
+}
+
+/* Navigasyon menüsü stilleri */
+nav {
+  background-color: #444;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  color: #fff;
+  padding: 5px;
+  text-decoration: none;
+}
+
+/* Ana içerik alanı stilleri */
+main {
+  padding: 10px;
+}
+
+/* Form stilleri */
+form {
+  margin-top: 10px;
+}
+
+form label, form input, form textarea {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input[type="submit"] {
+  background-color: #333;
+  border: none;
+  color: #fff;
+padding: 10px;
+cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+background-color: #444;
+}
