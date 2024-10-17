@@ -128,13 +128,13 @@
         const clothingImage = document.getElementById('clothingImage');
 
             if (temp >= 25) {
-                clothingImage.src = 'images/tshirt-sort.png'; // Yeni yol
+                clothingImage.src = 'tshirt-sort.png'; // Yeni yol
             } else if (temp >= 15 && temp < 25) {
-                clothingImage.src = 'images/ceket.png'; // Yeni yol
+                clothingImage.src = 'ceket.png'; // Yeni yol
             } else if (temp >= 5 && temp < 15) {
-                clothingImage.src = 'images/kazak.png'; // Yeni yol
+                clothingImage.src = 'kazak.png'; // Yeni yol
             } else {
-                clothingImage.src = 'images/mont.png'; // Yeni yol
+                clothingImage.src = 'mont.png'; // Yeni yol
             }
 
         document.getElementById('result').innerHTML = suggestion;
