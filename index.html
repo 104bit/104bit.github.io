@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayşe Nur için Hava Durumu ve Giyim Önerisi</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1024px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .left-column {
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .right-column {
+            flex: 2 1 600px;
+        }
+
+        #clothingImage {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            #container {
+                flex-direction: column;
+            }
+            .left-column, .right-column {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="container">
+    <div class="left-column">
+        <div class="card">
+            <h1>Ayşe Nur için Hava Durumu</h1>
+            <div id="weather">Yükleniyor...</div>
+        </div>
+        <div class="card">
+            <h1>Öneri</h1>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+    <div class="right-column">
+        <div class="card">
+            <img id="clothingImage" src="" alt="Giysi Görseli">
+        </div>
+    </div>
+</div>
+
+<script>
+    const apiKey = 'b07a07d493ce339fda67b34fb5db1dfe';
+
+    async function fetchWeather() {
+        try {
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=panderma,tr&appid=${apiKey}&units=metric&lang=tr`);
+            const data = await response.json();
+
+            const weatherDiv = document.getElementById('weather');
+            const temp = data.main.temp;
+
+            weatherDiv.innerHTML = `
+                <p>Sıcaklık: ${temp} °C</p>
+                <p>Hissedilen Sıcaklık: ${data.main.feels_like} °C</p>
+                <p>Nem: ${data.main.humidity}%</p>
+                <p>Durum: ${data.weather[0].description}</p>
+            `;
+
+            getClothingSuggestion(temp);
+        } catch (error) {
+            document.getElementById('weather').innerText = 'Veri alınırken bir hata oluştu!';
+            console.error('API Hatası:', error);
+        }
+    }
+
+    function getClothingSuggestion(temp) {
+        let suggestion = '';
+
+        if (temp >= 25) {
+            suggestion = `
+                Sıcak havalar için hafif ve nefes alabilen kumaşlar tercih edin. 
+                Tişört ve şort giymek idealdir. Parlak ve açık renkler (beyaz, açık mavi, pastel tonları) güneş ışınlarını daha az çeker, 
+                bu yüzden açık tonlarda giyinmeyi unutmayın. Ayrıca, gözlerinizi korumak için güneş gözlüğü ve 
+                şapka da aksesuar olarak güzel bir tamamlayıcı olur.
+            `;
+        } else if (temp >= 15 && temp < 25) {
+            suggestion = `
+                Bahar havası gibi hafif serin havalarda, ince bir ceket veya kot ceket ideal olur. Renk olarak gri, lacivert, 
+                haki gibi tonlar sonbahar için harika tercihlerdir. Hafif bir atkı ya da şık bir fular da kıyafetinizi zenginleştirir. 
+                Altına rahat bir jean veya ince kumaş pantolon giymeyi düşünebilirsiniz.
+            `;
+        } else if (temp >= 5 && temp < 15) {
+            suggestion = `
+                Serin havalarda daha kalın kıyafetlere ihtiyaç var. Uzun kollu kazaklar, hırkalar ve montlar giyebilirsiniz. 
+                Renklerde ise koyu tonlar (bordo, koyu yeşil, siyah) hem sıcak tutar hem de şık durur. 
+                Ayrıca bot veya spor ayakkabı seçimi iyi olur. Kalın çoraplar giymeyi unutmayın!
+            `;
+        } else {
+            suggestion = `
+                Soğuk havalarda kesinlikle kalın montlar, kazaklar, eldiven ve bere gibi aksesuarlar gereklidir. 
+                Katmanlı giyinmek önemlidir; içe termal içlik, üstüne yün kazak ve kalın bir kaban tercih edebilirsiniz. 
+                Renklerde ise sıcak tonlar (kırmızı, turuncu) tercih edilebilir. Ayaklarınızı sıcak tutmak için yün çorap ve bot giyin.
+            `;
+        }
+
+        // Görsel ekleme
+        const clothingImage = document.getElementById('clothingImage');
+
+            if (temp >= 25) {
+                clothingImage.src = 'images/tshirt-sort.png'; // Yeni yol
+            } else if (temp >= 15 && temp < 25) {
+                clothingImage.src = 'images/ceket.png'; // Yeni yol
+            } else if (temp >= 5 && temp < 15) {
+                clothingImage.src = 'images/kazak.png'; // Yeni yol
+            } else {
+                clothingImage.src = 'images/mont.png'; // Yeni yol
+            }
+
+        document.getElementById('result').innerHTML = suggestion;
+    }
+
+    window.onload = function() {
+        fetchWeather();
+        setInterval(fetchWeather, 600000);  // Her 10 dakikada bir güncelleme (600,000 ms)
+    };
+</script>
+
+</body>
+</html>
