@@ -85,11 +85,7 @@
         </div>
     </div>
     <div class="right-column">
-        <div class="card">
-            <h3>Öneri Görseli</h3>
-            <img id="clothingImage" src="" alt="Giysi önerisi görseli yüklenecek...">
-        </div>
-        <div class="card">
+                <div class="card">
             <h1>5 Günlük Hava Durumu Grafiği</h1>
             <canvas id="weatherChart"></canvas>
         </div>
@@ -102,7 +98,7 @@
                         <th>Saat</th>
                         <th>Sıcaklık (°C)</th>
                         <th>Durum</th>
-                        <th>İkon</th> </tr>
+                    </tr>
                 </thead>
                 <tbody></tbody>
             </table>
@@ -110,18 +106,20 @@
     </div>
 </div>
 
+
+
+
 <script>
-    const apiKey = 'b07a07d493ce339fda67b34fb5db1dfe'; 
-    let myChart = null; // DÜZELTME: Grafik nesnesini tutmak için değişken tanımlandı
+    const apiKey = 'b07a07d493ce339fda67b34fb5db1dfe'; // API anahtarınızı buraya girin
 
     async function fetchWeather() {
         try {
-            // 'panderma' yerine 'Bandirma' veya güncel şehir ismini kullanmak daha garantidir ama kodunuzu bozmadım.
-            const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=panderma,tr&appid=${apiKey}&units=metric&lang=tr`);
+           const currentWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=panderma,tr&appid=${apiKey}&units=metric&lang=tr`);
             const currentWeatherData = await currentWeatherResponse.json();
 
             const forecastWeatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=panderma,tr&appid=${apiKey}&units=metric&lang=tr`);
             const forecastWeatherData = await forecastWeatherResponse.json();
+
 
             displayCurrentWeather(currentWeatherData);
             displayForecastWeather(forecastWeatherData);
@@ -159,20 +157,23 @@
         }
 
         const forecastDiv = document.getElementById('forecastWeather');
-        if (tomorrowForecast) {
-            const iconCode = tomorrowForecast.weather[0].icon;
-            const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+                    if (tomorrowForecast) {
+                const iconCode = tomorrowForecast.weather[0].icon;
+                const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
-            forecastDiv.innerHTML = `
+
+                forecastDiv.innerHTML = `
                 <p>Sıcaklık: ${tomorrowForecast.main.temp} °C</p>
                 <p>Hissedilen Sıcaklık: ${tomorrowForecast.main.feels_like} °C</p>
                 <p>Nem: ${tomorrowForecast.main.humidity}%</p>
                 <p>Durum: ${tomorrowForecast.weather[0].description}</p>
                 <img src="${iconUrl}" alt="${tomorrowForecast.weather[0].description}">
             `;
-        } else {
-            forecastDiv.innerHTML = `<p>Yarın için hava durumu bilgisi bulunamadı.</p>`;
-        }
+            } else {
+                forecastDiv.innerHTML = `<p>Yarın için hava durumu bilgisi bulunamadı.</p>`;
+            }
+        
+        
     }
 
     function getClothingSuggestion(data) {
@@ -198,104 +199,95 @@
         let imageSrc = '';
 
         if (temp >= 25) {
-            suggestion = `Sıcak havalar için hafif ve nefes alabilen kumaşlar tercih edin...`;
-            imageSrc = 'tshirt-sort.png';
+            suggestion = `Sıcak havalar için hafif ve nefes alabilen kumaşlar tercih edin. Tişört ve şort giymek idealdir. Parlak ve açık renkler (beyaz, açık mavi, pastel tonları) güneş ışınlarını daha az çeker, bu yüzden açık tonlarda giyinmeyi unutmayın. Ayrıca, gözlerinizi korumak için güneş gözlüğü ve şapka da aksesuar olarak güzel bir tamamlayıcı olur.`;
+             imageSrc = 'tshirt-sort.png';
         } else if (temp >= 15 && temp < 25) {
-            suggestion = `Bahar havası gibi hafif serin havalarda, ince bir ceket veya kot ceket ideal olur...`;
+            suggestion = `Bahar havası gibi hafif serin havalarda, ince bir ceket veya kot ceket ideal olur. Renk olarak gri, lacivert, haki gibi tonlar sonbahar için harika tercihlerdir. Hafif bir atkı ya da şık bir fular da kıyafetinizi zenginleştirir. Altına rahat bir jean veya ince kumaş pantolon giymeyi düşünebilirsiniz.`;
             imageSrc = 'ceket.png';
         } else if (temp >= 5 && temp < 15) {
-            suggestion = `Serin havalarda daha kalın kıyafetlere ihtiyaç var...`;
+            suggestion = `Serin havalarda daha kalın kıyafetlere ihtiyaç var. Uzun kollu kazaklar, hırkalar ve montlar giyebilirsiniz. Renklerde ise koyu tonlar (bordo, koyu yeşil, siyah) hem sıcak tutar hem de şık durur. Ayrıca bot veya spor ayakkabı seçimi iyi olur. Kalın çoraplar giymeyi unutmayın!`;
             imageSrc = 'kazak.png';
         } else {
-            suggestion = `Soğuk havalarda kesinlikle kalın montlar...`;
+            suggestion = `Soğuk havalarda kesinlikle kalın montlar, kazaklar, eldiven ve bere gibi aksesuarlar gereklidir. Katmanlı giyinmek önemlidir; içe termal içlik, üstüne yün kazak ve kalın bir kaban tercih edebilirsiniz. Renklerde ise sıcak tonlar (kırmızı, turuncu) tercih edilebilir. Ayaklarınızı sıcak tutmak için yün çorap ve bot giyin.`;
             imageSrc = 'mont.png';
         }
 
+
         document.getElementById('result').innerHTML = suggestion;
-        
-        // Resmi güvenli bir şekilde güncelle
-        const imgElement = document.getElementById('clothingImage');
-        if (imgElement) {
-            imgElement.src = imageSrc;
-        }
+        document.getElementById('clothingImage').src = imageSrc;
     }
 
-    function display5DayForecast(data) {
-        const tableBody = document.getElementById('weatherTable').querySelector('tbody');
-        tableBody.innerHTML = ''; // Tabloyu temizle
+function display5DayForecast(data) {
+    const tableBody = document.getElementById('weatherTable').querySelector('tbody');
+    tableBody.innerHTML = ''; // Tabloyu temizle
 
-        const chartData = {
-            labels: [],
-            datasets: [{
-                label: 'Sıcaklık (°C)',
-                data: [],
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.4
-            }]
-        };
+    const chartData = {
+        labels: [],
+        datasets: [{
+            label: 'Sıcaklık (°C)',
+            data: [],
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.4
+        }]
+    };
 
-        for (const item of data.list) {
-            const date = new Date(item.dt * 1000);
-            const dateString = date.toLocaleDateString('tr-TR');
-            const timeString = date.toLocaleTimeString('tr-TR');
-            const temperature = item.main.temp;
-            const description = item.weather[0].description;
-                
-            const row = tableBody.insertRow();
-            row.insertCell().textContent = dateString;
-            row.insertCell().textContent = timeString;
-            row.insertCell().textContent = temperature;
-            row.insertCell().textContent = description;
+    for (const item of data.list) {
+        const date = new Date(item.dt * 1000);
+        const dateString = date.toLocaleDateString('tr-TR');
+        const timeString = date.toLocaleTimeString('tr-TR');
+        const temperature = item.main.temp;
+        const description = item.weather[0].description;
+            
+        const row = tableBody.insertRow();
+        row.insertCell().textContent = dateString;
+        row.insertCell().textContent = timeString;
+        row.insertCell().textContent = temperature;
+        row.insertCell().textContent = description;
 
-            const iconCode = item.weather[0].icon;
-            const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+        chartData.labels.push(`${dateString} ${timeString}`);
+        chartData.datasets[0].data.push(temperature);
+        const iconCode = item.weather[0].icon;
+                const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`; // İkon URL'si
 
-            const iconCell = row.insertCell(); 
-            const iconImg = document.createElement('img');
-            iconImg.src = iconUrl;
-            iconImg.alt = description;
-            iconCell.appendChild(iconImg);
+                const iconCell = row.insertCell(); // Yeni hücre ekle
+                const iconImg = document.createElement('img'); // Resim elementi oluştur
+                iconImg.src = iconUrl;
+                iconImg.alt = description;
+                iconCell.appendChild(iconImg);
+    }
 
-            chartData.labels.push(`${dateString} ${timeString}`);
-            chartData.datasets[0].data.push(temperature);
-        }
-
-        const ctx = document.getElementById('weatherChart');
-        
-        // DÜZELTME: Eski grafik varsa önce onu yok ediyoruz
-        if (myChart) {
-            myChart.destroy();
-        }
-
-        myChart = new Chart(ctx, {
-            type: 'line',
-            data: chartData,
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Sıcaklık (°C)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Tarih ve Saat'
-                        }
+    const ctx = document.getElementById('weatherChart');
+    new Chart(ctx, {
+        type: 'line',
+        data: chartData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Sıcaklık (°C)'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tarih ve Saat'
                     }
                 }
             }
-        });
-    }
+        }
+    });
+}
+
 
     window.onload = function() {
         fetchWeather();
-        // DÜZELTME: 10 dakika = 600000 ms (Sizin yazdığınız 100000, 1.5 dakika ediyordu)
-        setInterval(fetchWeather, 600000);  
+        setInterval(fetchWeather, 100000);  // Her 10 dakikada bir güncelleme
     };
 </script>
 
 </body>
 </html>
+
+
